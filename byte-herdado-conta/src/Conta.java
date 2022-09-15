@@ -1,0 +1,73 @@
+public abstract class Conta{
+	protected double saldo;
+	private int agencia;
+	private int numero;
+	private Cliente titular;
+	private static int total;
+	
+	public Conta(int agencia, int numero) {
+		Conta.total++;
+		System.out.println("o total de contas ้ " + total);
+		this.agencia = agencia;
+		this.numero = numero;
+		
+		System.out.println("estou criando uma conta " + this.agencia + " " + this.numero);
+	}
+	
+	public abstract void deposita(double valor);  //void = nao devolve nada como resposta
+//		this.saldo += valor;
+	
+	
+	public void saca(double valor){
+		if(this.saldo < valor) {
+			throw new SaldoInsuficienteException("Saldo: " + this.saldo + ", Valor: " + valor);
+		}
+		
+		this.saldo -= valor;
+	}
+	
+	public void transfere(double valor, Conta destino){
+		this.saca(valor);
+		destino.deposita(valor);
+	}
+	
+	public double getSaldo() {
+		return this.saldo;
+	}
+	
+	public int getNumero() {
+		return this.numero;
+	}
+	
+	public void setNumero(int numero) { //void, nao precisa retornar nada. sรณ altera
+		if(numero <= 0) {
+			System.out.println("o numero nao pode ser menor igual a 0");
+			return;
+		}
+		this.numero = numero;
+	}
+	
+	public int getAgencia() {
+		return this.agencia;
+	}
+	
+	public void setAgencia(int agencia) {
+		if(agencia <= 0) {
+			System.out.println("a agencia nao pode ser menor igual a 0");
+			return;
+		}
+		this.agencia = agencia;
+	}
+	
+	public void setTitular(Cliente titular) {
+		this.titular = titular;
+	}
+	
+	public Cliente getTitular() {
+		return titular;
+	}
+	
+	public static int getTotal() {
+		return Conta.total;
+	}
+}
